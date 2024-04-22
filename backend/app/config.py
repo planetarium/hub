@@ -1,8 +1,6 @@
 import typing
 
-from pydantic import Field
 from pydantic_settings import BaseSettings
-
 
 Environment = typing.Literal["local", "test", "development", "production"]
 

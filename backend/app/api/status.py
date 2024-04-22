@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-from app.schemas.status import Status
+
+from app.models.status import Status
 
 router = APIRouter(
     prefix="",
