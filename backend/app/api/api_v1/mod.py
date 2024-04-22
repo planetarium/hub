@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
 from app.models.mod import ModItemDetailPublic, ModItemPublic, ModItemsPublic, ModItemCreate
+from app.models.general import Message
 
 router = APIRouter(
     prefix="/mod",
@@ -27,7 +28,7 @@ def read_mods():
 @router.get("/{id}", response_model=ModItemDetailPublic)
 def read_mod(id: int):
     """
-    Retrieve mods
+    Retrieve mod
 
     """
 
@@ -55,9 +56,9 @@ We look forward to continuously improving Athena, aiming to make it an essential
     )
 
 @router.post("/", response_model=ModItemDetailPublic)
-def create_mod(mod_in: ModItemCreate):
+def register_mod(mod_in: ModItemCreate):
     """
-    Retrieve mods
+    Register mod
 
     """
 
@@ -83,3 +84,21 @@ We look forward to continuously improving Athena, aiming to make it an essential
         id=1,
         owner_id=1,
     )
+
+@router.post("/{id}") 
+def confirm_mod(id: int) -> Message:
+    """
+    Confirm mod
+
+    """
+
+    return Message(message="Mod Registered")
+
+@router.delete("/{id}") 
+def delete_mod(id: int) -> Message:
+    """
+    Delete mod
+
+    """
+
+    return Message(message="Mod Deleted")
