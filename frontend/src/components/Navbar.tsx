@@ -1,11 +1,23 @@
+import Link from "next/link";
+
 const Navbar = () => {
   return (
     <nav className="w-full">
       <div className="navbar bg-base-100">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">Mod Hub</a>
+          <Link href="/" className="btn btn-ghost text-xl">
+            Mod Hub
+          </Link>
         </div>
         <div className="flex-none gap-2">
+          <select className="select select-bordered w-full max-w-xs">
+            <option disabled selected>
+              Categories
+            </option>
+            <option>Unity</option>
+            <option>Website</option>
+          </select>
+
           <div className="form-control">
             <input
               type="text"
@@ -31,10 +43,7 @@ const Navbar = () => {
               className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
+                <Link href="/mods/register">Register Mod</Link>
               </li>
               <li>
                 <a>Settings</a>

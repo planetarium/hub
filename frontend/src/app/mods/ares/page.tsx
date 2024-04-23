@@ -24,12 +24,26 @@ const ModDetail = () => {
           className="w-full"
         />
       </div>
-      <div className="card w-full bg-base-100 shadow-xl">
-        <div className="card-body">{temp}</div>
+
+      <div className="avatar">
+        <div className="w-24 rounded-full">
+          <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+        </div>
       </div>
 
-      <button className="btn btn-primary">Download Link</button>
-      <button className="btn btn-primary">Confirm</button>
+      <p className="text-4xl">Ares</p>
+      <p>
+        Athena is a practical mod for Nine Chronicles, enhancing the game
+        experience by allowing players to craft and modify any piece of
+        equipment available in the game
+      </p>
+
+      <div className="divider">About</div>
+
+      <div className="w-full border rounded-md p-4">
+        <div>{temp}</div>
+        <button className="btn btn-primary">Download Link</button>
+      </div>
     </div>
   );
 };
