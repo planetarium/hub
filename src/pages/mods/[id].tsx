@@ -13,6 +13,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     fallback: false,
   };
 };
+
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
   const mod = getModData(id as string);

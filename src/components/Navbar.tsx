@@ -2,21 +2,57 @@ import { useState, ChangeEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const Navbar = () => {
+interface NavbarProps {
+  tags: string[];
+}
+
+const Navbar = ({ tags }: NavbarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
+
+  const updateQueryParams = (newParams: {
+    [key: string]: string | undefined;
+  }) => {
+    const currentQuery: { [key: string]: string | string[] } = {};
+
+    Object.keys(router.query).forEach((key) => {
+      const value = router.query[key];
+      if (value !== undefined) {
+        currentQuery[key] = value;
+      }
+    });
+
+    Object.keys(newParams).forEach((key) => {
+      const value = newParams[key];
+      if (value === undefined) {
+        delete currentQuery[key];
+      } else {
+        currentQuery[key] = value;
+      }
+    });
+
+    const queryString = Object.keys(currentQuery)
+      .map(
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(
+            currentQuery[key] as string
+          )}`
+      )
+      .join("&");
+
+    router.push(`/?${queryString}`, undefined, { shallow: true });
+  };
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     const trimmed = event.target.value.trim();
 
-    if (trimmed) {
-      router.push(`/?title=${encodeURIComponent(trimmed)}`, undefined, {
-        shallow: true,
-      });
-    } else {
-      router.push("/", undefined, { shallow: true });
-    }
+    updateQueryParams({ title: trimmed || undefined });
+  };
+
+  const handleTagChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const tag = event.target.value;
+    updateQueryParams({ tag: tag || undefined });
   };
 
   return (
@@ -32,10 +68,13 @@ const Navbar = () => {
           <div className="flex-none gap-2">
             <select
               className="select select-bordered w-full max-w-xs"
-              defaultValue="Unity"
+              onChange={handleTagChange}
             >
-              <option value="Unity">Unity</option>
-              <option>Website</option>
+              {tags.map((tag) => (
+                <option key={tag} value={tag}>
+                  {tag}
+                </option>
+              ))}
             </select>
 
             <div className="form-control">
