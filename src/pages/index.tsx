@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { loadModData } from "@/lib/modData";
+import { loadModData, getTags } from "@/lib/modData";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import type { ModData } from "@/types/mod";
@@ -7,10 +7,12 @@ import ModCard from "@/components/ModCard";
 
 export async function getStaticProps() {
   const mods = loadModData();
+  const tags = getTags();
 
   return {
     props: {
       initialMods: mods,
+      tags,
     },
   };
 }
@@ -18,21 +20,25 @@ export async function getStaticProps() {
 const ModListPage: NextPage<{ initialMods: ModData[] }> = ({ initialMods }) => {
   const [filteredMods, setFilteredMods] = useState(initialMods);
   const router = useRouter();
-  const { title } = router.query;
+  const { title, tag } = router.query;
 
   useEffect(() => {
+    let mods = initialMods;
+
     if (title) {
       const searchTerm = Array.isArray(title)
         ? title[0].toLowerCase()
         : title.toLowerCase();
-      const mods = initialMods.filter((mod) =>
-        mod.title.toLowerCase().includes(searchTerm)
-      );
-      setFilteredMods(mods);
-    } else {
-      setFilteredMods(initialMods);
+      mods = mods.filter((mod) => mod.title.toLowerCase().includes(searchTerm));
     }
-  }, [title, initialMods]);
+
+    if (tag) {
+      const tagTerm = Array.isArray(tag) ? tag[0] : tag;
+      mods = mods.filter((mod) => mod.tags.includes(tagTerm));
+    }
+
+    setFilteredMods(mods);
+  }, [title, tag, initialMods]);
 
   return (
     <div className="w-full flex flex-col gap-6">

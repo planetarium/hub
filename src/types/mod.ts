@@ -3,4 +3,5 @@ export type ModData = {
   title: string;
   summary: string;
   githubLink: string;
+  tags: Array<string>;
 };

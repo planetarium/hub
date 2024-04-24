@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import type { ModData } from "@/types/mod";
 
-const ModCard = ({ id, title, summary, githubLink }: ModData) => {
+const ModCard = ({ id, title, summary, githubLink, tags }: ModData) => {
   return (
     <div className="card card-side bg-base-100 shadow-xl">
       <figure>
@@ -16,8 +16,9 @@ const ModCard = ({ id, title, summary, githubLink }: ModData) => {
         <p>{summary}</p>
         <a href={githubLink}>Github Link</a>
         <div className="flex gap-2">
-          <div className="badge badge-outline">Arena</div>
-          <div className="badge badge-primary badge-outline">Website</div>
+          {tags.map((tag) => (
+            <div className="badge badge-outline">{tag}</div>
+          ))}
         </div>
         <div className="card-actions justify-end">
           <Link href={`/mods/${id}`} className="btn btn-primary">
