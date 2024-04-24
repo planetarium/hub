@@ -1,16 +1,12 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import fs from "fs";
-import path from "path";
+
 import type { ModData } from "@/types/mod";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { getModData, loadModPaths } from "@/lib/modData";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const directory = path.join(process.cwd(), "data");
-  const filenames = fs.readdirSync(directory);
-  const paths = filenames.map((filename) => ({
-    params: { id: filename.replace(/\.json$/, "") },
-  }));
+  const paths = loadModPaths();
 
   return {
     paths,
@@ -19,9 +15,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
-  const filePath = path.join(process.cwd(), "data", `${id}.json`);
-  const fileContents = fs.readFileSync(filePath, "utf8");
-  const mod: ModData = JSON.parse(fileContents);
+  const mod = getModData(id as string);
 
   const repoPath = mod.githubLink.replace("https://github.com/", "");
   const readmeUrl = `https://raw.githubusercontent.com/${repoPath}/master/README.md`;
