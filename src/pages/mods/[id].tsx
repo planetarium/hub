@@ -2,7 +2,8 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import fs from "fs";
 import path from "path";
 import type { ModData } from "@/types/mod";
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const directory = path.join(process.cwd(), "data");
@@ -41,12 +42,13 @@ const ModDetailPage: NextPage<{ mod: ModData; readme: string }> = ({
   readme,
 }) => {
   return (
-    <div>
+    <div className="w-5/6">
       <h1 className="text-4xl">{mod.title}</h1>
       <p>{mod.summary}</p>
       <div className="divider">README</div>
-      <ReactMarkdown>{readme}</ReactMarkdown>
-      {/* <div dangerouslySetInnerHTML={{ __html: readme }} /> */}
+      <ReactMarkdown className="prose lg:prose-l" remarkPlugins={[remarkGfm]}>
+        {readme}
+      </ReactMarkdown>
     </div>
   );
 };

@@ -50,11 +50,9 @@ export async function getStaticProps() {
 
 const ModListPage: NextPage<{ mods: ModData[] }> = ({ mods }) => {
   return (
-    <div>
+    <div className="w-full flex flex-col gap-6">
       {mods.map((mod) => (
-        <div key={mod.id} className="w-full flex flex-col gap-6">
-          <ModCard {...mod} />
-        </div>
+        <ModCard key={mod.id} {...mod} />
       ))}
     </div>
   );
