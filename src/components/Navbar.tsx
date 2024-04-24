@@ -10,11 +10,8 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex-none gap-2">
-          <select className="select select-bordered w-full max-w-xs">
-            <option disabled selected>
-              Categories
-            </option>
-            <option>Unity</option>
+          <select className="select select-bordered w-full max-w-xs" defaultValue="Unity">
+            <option value="Unity">Unity</option>
             <option>Website</option>
           </select>
 
