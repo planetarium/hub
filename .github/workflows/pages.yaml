@@ -63,7 +63,9 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
-
+      - name: Copy CNAME
+        run: cp CNAME ./out/
+  
   deploy:
     environment:
       name: github-pages
