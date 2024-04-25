@@ -41,7 +41,7 @@ const ModListPage: NextPage<{ initialMods: ModData[] }> = ({ initialMods }) => {
   }, [title, tag, initialMods]);
 
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className="w-full grid grid-cols-3 gap-8">
       {filteredMods.map((mod) => (
         <ModCard key={mod.id} {...mod} />
       ))}
