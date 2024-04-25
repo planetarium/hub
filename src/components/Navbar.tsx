@@ -56,16 +56,14 @@ const Navbar = ({ tags }: NavbarProps) => {
   };
 
   return (
-    <nav className="w-full">
-      <div className="navbar bg-base-100">
-        <div className="flex-1">
-          <Link href="/" className="btn btn-ghost text-xl">
-            Mod Hub
-          </Link>
-        </div>
+    <div className="navbar bg-base-100 border-b justify-center">
+      <div className="w-full max-w-screen-xl flex justify-between">
+        <Link href="/" className="btn btn-ghost text-xl">
+          Hub
+        </Link>
 
         {router.pathname === "/" && (
-          <div className="flex-none gap-2">
+          <div className="flex gap-4">
             <select
               className="select select-bordered w-full max-w-xs"
               onChange={handleTagChange}
@@ -89,7 +87,7 @@ const Navbar = ({ tags }: NavbarProps) => {
           </div>
         )}
       </div>
-    </nav>
+    </div>
   );
 };
 

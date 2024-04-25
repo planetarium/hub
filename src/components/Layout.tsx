@@ -7,9 +7,12 @@ interface LayoutProps {
 
 export default function RootLayout({ children, tags }: LayoutProps) {
   return (
-    <div className="flex flex-col items-center justify-between px-32 py-4">
+    <div
+      data-theme="winter"
+      className="flex flex-col items-center justify-between"
+    >
       <Navbar tags={tags} />
-      {children}
+      <div className="max-w-screen-xl mt-8 px-10">{children}</div>
     </div>
   );
 }

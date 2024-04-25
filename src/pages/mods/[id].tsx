@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
+import { BsArrowRight, BsArrowUpRight, BsGithub } from "react-icons/bs";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 
 import type { ModData } from "@/types/mod";
@@ -37,26 +40,59 @@ const ModDetailPage: NextPage<{ mod: ModData; readme: string }> = ({
   readme,
 }) => {
   return (
-    <div className="w-full px-6">
-      <div className="flex items-end">
-        {mod.thumbnailExists ? (
-          <img
-            className="w-56 max-h-72 mr-4"
-            src={`/images/${mod.id}.jpg`}
-            alt="Movie"
-          />
-        ) : (
-          <div className="w-56 max-h-72 mr-4 flex flex-col items-center justify-center text-center bg-black text-white text-xl font-bold">
-            {mod.title}
+    <div className="">
+      <div className="card card-side border shadow-sm h-72 overflow-hidden">
+        <figure className="h-full max-w-96 shrink-0 rounded-none">
+          {mod.thumbnailExists ? (
+            <img className="h-full" src={`/images/${mod.id}.jpg`} alt="Movie" />
+          ) : (
+            <div className="w-96 h-full flex flex-col items-center justify-center text-center bg-black text-white text-xl font-bold">
+              {mod.title}
+            </div>
+          )}
+        </figure>
+
+        <div className="card-body p-4">
+          <h1 className="card-title text-4xl">{mod.title}</h1>
+
+          <p className="text-lg m-1">{mod.summary}</p>
+
+          <div className="flex gap-2 flex-wrap">
+            <div
+              key={mod.developer}
+              className="badge badge-primary badge-lg badge-outline"
+            >
+              Created by <span className="ml-1 font-bold">{mod.developer}</span>
+            </div>
+            {mod.tags.map((tag) => (
+              <div key={tag} className="badge badge-outline badge-lg">
+                {tag}
+              </div>
+            ))}
           </div>
-        )}
-        <div className="flex flex-col">
-          <h1 className="text-4xl">{mod.title}</h1>
-          <p>{mod.summary}</p>
+          <div className="card-actions justify-end mt-8">
+            <Link href={mod.githubLink}>
+              <button className="btn btn-outline btn-primary">
+                Github
+                <BsGithub />
+              </button>
+            </Link>
+            {mod.siteLink && (
+              <Link href={mod.siteLink}>
+                <button className="btn btn-primary">
+                  Site Link
+                  <BsArrowRight />
+                </button>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
-      <div className="divider">README</div>
-      <ReactMarkdown className="prose lg:prose-l" remarkPlugins={[remarkGfm]}>
+
+      <ReactMarkdown
+        className="w-full mx-auto max-w-full px-4 py-8 prose prose-img:rounded-xl prose-headings:border-b-2 prose-headings:pb-4 prose-a:text-blue-600"
+        remarkPlugins={[remarkGfm]}
+      >
         {readme}
       </ReactMarkdown>
     </div>
