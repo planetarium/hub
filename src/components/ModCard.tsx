@@ -17,7 +17,9 @@ const ModCard = ({ id, title, summary, githubLink, tags }: ModData) => {
         <a href={githubLink}>Github Link</a>
         <div className="flex gap-2">
           {tags.map((tag) => (
-            <div className="badge badge-outline">{tag}</div>
+            <div key={tag} className="badge badge-outline">
+              {tag}
+            </div>
           ))}
         </div>
         <div className="card-actions justify-end">
