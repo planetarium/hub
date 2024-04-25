@@ -4,4 +4,5 @@ export type ModData = {
   summary: string;
   githubLink: string;
   tags: Array<string>;
+  thumbnailExists: boolean;
 };
