@@ -37,9 +37,24 @@ const ModDetailPage: NextPage<{ mod: ModData; readme: string }> = ({
   readme,
 }) => {
   return (
-    <div className="w-5/6">
-      <h1 className="text-4xl">{mod.title}</h1>
-      <p>{mod.summary}</p>
+    <div className="w-full px-6">
+      <div className="flex items-end">
+        {mod.thumbnailExists ? (
+          <img
+            className="w-56 max-h-72 mr-4"
+            src={`/images/${mod.id}.jpg`}
+            alt="Movie"
+          />
+        ) : (
+          <div className="w-56 max-h-72 mr-4 flex flex-col items-center justify-center text-center bg-black text-white text-xl font-bold">
+            {mod.title}
+          </div>
+        )}
+        <div className="flex flex-col">
+          <h1 className="text-4xl">{mod.title}</h1>
+          <p>{mod.summary}</p>
+        </div>
+      </div>
       <div className="divider">README</div>
       <ReactMarkdown className="prose lg:prose-l" remarkPlugins={[remarkGfm]}>
         {readme}
