@@ -1,0 +1,18 @@
+name: Validate data
+
+on:
+  push:
+    paths:
+      - "data/mods/**"
+      - "public/images/**"
+      - "data/tags.json"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate Files
+        run: bash validate.sh
