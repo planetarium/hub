@@ -58,10 +58,14 @@ const Navbar = ({ tags }: NavbarProps) => {
   return (
     <div className="navbar bg-base-100 border-b justify-center">
       <div className="w-full max-w-screen-xl flex justify-between">
-        <Link href="/" className="btn btn-ghost text-xl">
-          Hub
-        </Link>
-
+        <div>
+          <Link href="/" className="btn btn-ghost text-xl">
+            Hub
+          </Link>
+          <Link href="https://github.com/planetarium/hub" className="ml-2 underline text-xs">
+            Register your mod
+          </Link>
+        </div>
         {router.pathname === "/" && (
           <div className="flex gap-4">
             <select
