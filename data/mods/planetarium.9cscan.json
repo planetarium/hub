@@ -1,0 +1,11 @@
+{
+    "id": "planetarium.9cscan",
+    "title": "9cscan.com",
+    "developer": "hxad",
+    "summary": "9cscan is a Block Explorer and Analytics Platform for Nine Chronicles",
+    "githubLink": "https://github.com/planetarium/9cscan.com",
+    "thumbnailExists": true,
+    "tags": [
+        "website"
+    ]
+}
