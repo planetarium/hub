@@ -3,7 +3,7 @@ import path from "path";
 import type { ModData } from "@/types/mod";
 
 const modsDirectory = path.join(process.cwd(), "data", "mods");
-const tagFile = path.join(process.cwd(), "data", "tags.json");
+const tagFile = path.join(process.cwd(), "data", "mod-tags.json");
 
 export function loadModData() {
   const filenames = fs.readdirSync(modsDirectory);

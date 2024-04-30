@@ -62,7 +62,7 @@ const Navbar = ({ tags }: NavbarProps) => {
           <Link href="/" className="btn btn-ghost text-xl">
             Hub
           </Link>
-          <Link href="https://github.com/planetarium/hub" className="ml-2 underline text-xs">
+          <Link href="https://github.com/planetarium/hub?tab=readme-ov-file#contributing-to-the-mod-hub" className="ml-2 underline text-xs">
             Register your mod
           </Link>
         </div>
