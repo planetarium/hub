@@ -1,29 +1,30 @@
 import fs from "fs";
 import path from "path";
 import type { ModData } from "@/types/mod";
+import { BountyData } from "@/types/bounty";
 
 const modsDirectory = path.join(process.cwd(), "data", "mods");
 const bountiesDirectory = path.join(process.cwd(), "data", "bounties");
 const modTagsFile = path.join(process.cwd(), "data", "mod-tags.json");
 const bountyTagsFile = path.join(process.cwd(), "data", "bounty-tags.json");
 
-function getDatas(dir: string) {
+function getDatas<T>(dir: string): T[] {
   const filenames = fs.readdirSync(dir);
-  const mods: ModData[] = filenames.map((filename) => {
+  const datas: T[] = filenames.map((filename) => {
     const filePath = path.join(dir, filename);
     const fileContents = fs.readFileSync(filePath, "utf8");
     return JSON.parse(fileContents);
   });
 
-  return mods;
+  return datas;
 }
 
-function getData(dir: string, id: string) {
+function getData<T>(dir: string, id: string): T {
   const filePath = path.join(dir, `${id}.json`);
   const fileContents = fs.readFileSync(filePath, "utf8");
-  const mod: ModData = JSON.parse(fileContents);
+  const data: T = JSON.parse(fileContents);
 
-  return mod;
+  return data;
 }
 
 function getTags(dir: string) {
@@ -33,20 +34,30 @@ function getTags(dir: string) {
   return tags;
 }
 
+function getPaths(dir: string) {
+  const filenames = fs.readdirSync(dir);
+  const paths = filenames.map((filename) => ({
+    params: { id: filename.replace(/\.json$/, "") },
+  }));
+
+  return paths;
+}
+
+
 export function getMods() {
-  return getDatas(modsDirectory);
+  return getDatas<ModData>(modsDirectory);
 }
 
 export function getBounties() {
-  return getDatas(bountiesDirectory);
+  return getDatas<BountyData>(bountiesDirectory);
 }
 
 export function getMod(id: string) {
-  return getData(modsDirectory, id);
+  return getData<ModData>(modsDirectory, id);
 }
 
 export function getBounty(id: string) {
-  return getData(bountiesDirectory, id);
+  return getData<BountyData>(bountiesDirectory, id);
 }
 
 export function getModTags() {
@@ -58,10 +69,9 @@ export function getBountyTags() {
 }
 
 export function getModPaths() {
-  const filenames = fs.readdirSync(modsDirectory);
-  const paths = filenames.map((filename) => ({
-    params: { id: filename.replace(/\.json$/, "") },
-  }));
+  return getPaths(modsDirectory)
+}
 
-  return paths;
+export function getBountyPaths() {
+  return getPaths(bountiesDirectory)
 }
