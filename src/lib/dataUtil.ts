@@ -10,7 +10,7 @@ const bountyTagsFile = path.join(process.cwd(), "data", "bounty-tags.json");
 function getDatas(dir: string) {
   const filenames = fs.readdirSync(dir);
   const mods: ModData[] = filenames.map((filename) => {
-    const filePath = path.join(modsDirectory, filename);
+    const filePath = path.join(dir, filename);
     const fileContents = fs.readFileSync(filePath, "utf8");
     return JSON.parse(fileContents);
   });
