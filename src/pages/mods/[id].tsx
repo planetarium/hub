@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import { BsArrowRight, BsArrowUpRight, BsGithub } from "react-icons/bs";
+import { BsArrowRight, BsGithub } from "react-icons/bs";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 
 import type { ModData } from "@/types/mod";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { getModData, loadModPaths } from "@/lib/modData";
+import { getMod, getModPaths } from "@/lib/dataUtil";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = loadModPaths();
+  const paths = getModPaths();
 
   return {
     paths,
@@ -19,7 +19,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
-  const mod = getModData(id as string);
+  const mod = getMod(id as string);
 
   const repoPath = mod.githubLink.replace("https://github.com/", "");
   const readmeUrl = `https://raw.githubusercontent.com/${repoPath}/master/README.md`;

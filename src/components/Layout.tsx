@@ -12,7 +12,7 @@ export default function RootLayout({ children, tags }: LayoutProps) {
       className="flex flex-col items-center justify-between"
     >
       <Navbar tags={tags} />
-      <div className="max-w-screen-xl mt-8 px-10">{children}</div>
+      <div className="max-w-screen-xl mt-8 px-10 w-full">{children}</div>
     </div>
   );
 }

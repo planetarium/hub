@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { loadModData, getTags } from "@/lib/modData";
+import { getMods, getModTags } from "@/lib/dataUtil";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import type { ModData } from "@/types/mod";
 import ModCard from "@/components/ModCard";
 
 export async function getStaticProps() {
-  const mods = loadModData();
-  const tags = getTags();
+  const mods = getMods();
+  const tags = getModTags();
 
   return {
     props: {
