@@ -29,19 +29,22 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const issueResponse = await fetch(issueAPIUrl);
   const issueData = await issueResponse.json();
   const issueContent = issueData.body;
+  const issueTitle = issueData.title;
 
   return {
     props: {
       bounty,
       issueContent,
+      issueTitle,
     },
   };
 };
 
-const BountyPage: NextPage<{ bounty: BountyData; issueContent: string }> = ({
-  bounty,
-  issueContent,
-}) => {
+const BountyPage: NextPage<{
+  bounty: BountyData;
+  issueContent: string;
+  issueTitle: string;
+}> = ({ bounty, issueContent, issueTitle }) => {
   return (
     <div className="">
       <div className="card card-side border shadow-sm h-72 overflow-hidden">
@@ -67,6 +70,8 @@ const BountyPage: NextPage<{ bounty: BountyData; issueContent: string }> = ({
           </div>
         </div>
       </div>
+
+      <div>{issueTitle}</div>
 
       <ReactMarkdown
         className="w-full mx-auto max-w-full px-4 py-8 prose prose-img:rounded-xl prose-headings:border-b-2 prose-headings:pb-4 prose-a:text-blue-600"
