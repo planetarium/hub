@@ -71,6 +71,7 @@ const BountyPage: NextPage = () => {
         <option>Tag</option>
         <option>Libplanet</option>
       </select>
+      <button className="btn btn-outline btn-primary">Transfer Assets</button>
       <button className="btn btn-outline btn-primary">Create Bounty</button>
     </div>
   );
