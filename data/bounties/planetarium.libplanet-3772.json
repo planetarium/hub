@@ -4,6 +4,7 @@
     "title": "Issue libplanet 3772",
     "summary": "Please solve the libplanet issue",
     "githubIssue": "https://github.com/planetarium/libplanet/issues/3772",
+    "txHash": "hash",
     "tags": [
         "libplanet"
     ]

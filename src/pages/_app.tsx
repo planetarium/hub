@@ -6,7 +6,7 @@ import Layout from "@/components/Layout";
 import "@/styles/globals.css";
 
 const client = new ApolloClient({
-  uri: "https://9c-main-full-state.nine-chronicles.com/graphql",
+  uri: "https://9c-internal-rpc-1.nine-chronicles.com/graphql",
   cache: new InMemoryCache(),
 });
 

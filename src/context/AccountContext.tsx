@@ -1,6 +1,5 @@
-// context/AccountContext.tsx
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-// import { getChronoSdk } from "@planetarium/chrono-sdk";
+import { getChronoSdk } from "@planetarium/chrono-sdk";
 import { Account, AccountContextType } from "../types";
 
 export const AccountContext = createContext<AccountContextType | undefined>(
@@ -12,6 +11,7 @@ export const AccountProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [currentAccount, setCurrentAccount] = useState<number | null>(null);
+  
   // const chronoWallet = getChronoSdk();
 
   // useEffect(() => {
