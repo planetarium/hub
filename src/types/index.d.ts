@@ -20,8 +20,6 @@ export interface Account {
 }
 
 export interface AccountContextType {
-  accounts: Account[];
-  currentAccount: number | null;
-  setAccounts: (accounts: Account[]) => void;
-  setCurrentAccount: (index: number | null) => void;
+  account: Account | undefined;
+  setAccount: (account: Account) => void;
 }

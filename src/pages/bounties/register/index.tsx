@@ -2,19 +2,44 @@ import type { NextPage } from "next";
 import { useMemo, useState, useContext } from "react";
 import { AccountContext } from "@/context/AccountContext";
 import {
-  useGetAvatarsWithTipQuery,
   useStageTransactionMutation,
 } from "@/generated/graphql";
 import { Address } from "@planetarium/account";
 import { getChronoSdk } from "@planetarium/chrono-sdk";
 import { TransferAsset, fav, NCG } from "@planetarium/lib9c";
-
-interface AgentProps {
-  agentAddress: Address;
-}
+import { Account } from "@/types";
 
 type TransferAssetsProgress = "None" | "Signing" | "Staging" | "Done";
+type ConnectWalletButtonProps = {
+  setAccount: (account: Account) => void;
+};
 
+function ConnectWalletButton({ setAccount }: ConnectWalletButtonProps) {
+  const onClick = async () => {
+    const chronoWallet = getChronoSdk();
+    if (!chronoWallet) {
+      return;
+    }
+
+    const addresses = (await chronoWallet.listAccounts()).map((account) => ({
+      activated: account.activated,
+      address: account.address,
+    }));
+
+    const activeIndex = addresses.findIndex((acc) => acc.activated);
+    setAccount(addresses[activeIndex !== -1 ? activeIndex : 0]);
+  };
+
+  return (
+    <button
+      type="button"
+      className="rounded-md bg-yellow-400 text-white p-3 font-bold"
+      onClick={onClick}
+    >
+      ConnectWallet
+    </button>
+  );
+}
 function TransferAssetsButton({
   sender,
   recipient,
@@ -36,13 +61,11 @@ function TransferAssetsButton({
     setProgress("Signing");
     const chronoWallet = getChronoSdk();
     if (chronoWallet === undefined) {
-      console.log("test");
       return;
     }
 
-    var test = Address.fromHex("0xFa9c5183BD44C5805595E50701482E7C46c951Cb");
     chronoWallet
-      .sign(test, action.bencode())
+      .sign(sender, action.bencode())
       .then((tx) => {
         console.log(tx);
         setProgress("Staging");
@@ -78,60 +101,9 @@ function TransferAssetsButton({
 }
 
 const RegisterPage: NextPage = () => {
-  const context = useContext(AccountContext);
-  var agentAddress = Address.fromHex(
-    "0xf392d97E4D1757070Fd5b4dB9cdB9bD024F2c00e"
-  );
+  const { account, setAccount } = useContext(AccountContext);
 
-  if (context) {
-    const { accounts, currentAccount, setCurrentAccount } = context;
-    // agentAddress = accounts[0].address;
-  }
-
-  const { data, loading, error } = useGetAvatarsWithTipQuery({
-    variables: {
-      agentAddress: agentAddress.toString(),
-    },
-    pollInterval: 500,
-  });
-
-  if (!agentAddress) {
-    return <p className="mt-8 text-white">Loading</p>;
-  }
-
-  if (loading) {
-    return <p className="mt-8 text-white">Loading</p>;
-  }
-
-  if (error) {
-    return (
-      <p className="mt-8 text-white">Failed to fetch agent-related states.</p>
-    );
-  }
-
-  if (data === undefined) {
-    return (
-      <p className="mt-8 text-white">Unexpected failure while fetching data.</p>
-    );
-  }
-
-  if (data.stateQuery.agent === null || data.stateQuery.agent === undefined) {
-    return (
-      <p className="mt-8 text-white">
-        There is no such agent. (address: {agentAddress.toString()})
-      </p>
-    );
-  }
-
-  const agent = data.stateQuery.agent;
-
-  if (agent.avatarStates === null || agent.avatarStates === undefined) {
-    return (
-      <p className="mt-8 text-white">The agent may not have avatar states.</p>
-    );
-  }
-  const avatarStates = agent.avatarStates;
-  const tipIndex = data.nodeStatus.tip.index;
+  const agentAddress = account ? account.address : null;
 
   return (
     <div className="">
@@ -195,12 +167,17 @@ const RegisterPage: NextPage = () => {
         <option>Tag</option>
         <option>Libplanet</option>
       </select>
-      <TransferAssetsButton
-        sender={agentAddress}
-        recipient={Address.fromHex(
-          "0xf392d97E4D1757070Fd5b4dB9cdB9bD024F2c00e"
-        )}
-      />
+      {!agentAddress && setAccount && (
+        <ConnectWalletButton setAccount={setAccount} />
+      )}
+      {agentAddress && (
+        <TransferAssetsButton
+          sender={agentAddress}
+          recipient={Address.fromHex(
+            "0xf392d97E4D1757070Fd5b4dB9cdB9bD024F2c00e"
+          )}
+        />
+      )}
       <button className="btn btn-outline btn-primary">Create Bounty</button>
     </div>
   );
