@@ -21,11 +21,32 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
   const mod = getMod(id as string);
 
-  const repoPath = mod.githubLink.replace("https://github.com/", "");
-  const readmeUrl = `https://raw.githubusercontent.com/${repoPath}/master/README.md`;
+  const githubToken =
+    process.env.GITHUB_TOKEN || process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
-  const readmeResponse = await fetch(readmeUrl);
-  const readmeContent = await readmeResponse.text();
+  if (!githubToken) {
+    throw new Error("GitHub token not found in environment variables.");
+  }
+
+  const repoPath = mod.githubLink.replace("https://github.com/", "");
+
+  const readmeUrl = `https://api.github.com/repos/${repoPath}/contents/README.md`;
+  const readmeResponse = await fetch(readmeUrl, {
+    headers: {
+      Authorization: `token ${githubToken}`,
+    },
+  });
+
+  if (readmeResponse.status !== 200) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const readmeData = await readmeResponse.json();
+  const readmeContent = Buffer.from(readmeData.content, "base64").toString(
+    "utf8"
+  );
 
   return {
     props: {
