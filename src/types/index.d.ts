@@ -13,13 +13,3 @@ interface Window {
     getPublicKey(address: string): Promise<stirng>;
   };
 }
-
-export interface Account {
-  activated: boolean;
-  address: Address;
-}
-
-export interface AccountContextType {
-  account: Account | undefined;
-  setAccount: (account: Account) => void;
-}
