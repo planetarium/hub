@@ -1,109 +1,224 @@
 import type { NextPage } from "next";
-import { useMemo, useState, useContext } from "react";
-import { AccountContext } from "@/context/AccountContext";
-import {
-  useStageTransactionMutation,
-} from "@/generated/graphql";
+import { useMemo, useState } from "react";
 import { Address } from "@planetarium/account";
+import { useStageTransactionMutation } from "@/generated/graphql";
 import { getChronoSdk } from "@planetarium/chrono-sdk";
-import { TransferAsset, fav, NCG } from "@planetarium/lib9c";
+import {
+  useAccounts,
+  useConnect,
+  useNetwork,
+} from "@planetarium/chrono-sdk/hooks";
+import {
+  TransferAsset,
+  fav,
+  NCG,
+  ODIN_GENESIS_HASH,
+  HEIMDALL_GENESIS_HASH,
+} from "@planetarium/lib9c";
 import { Account } from "@/types";
 
-type TransferAssetsProgress = "None" | "Signing" | "Staging" | "Done";
-type ConnectWalletButtonProps = {
-  setAccount: (account: Account) => void;
+type FormData = {
+  title: string;
+  writer: string;
+  summary: string;
+  githubIssue: string;
+  tags: string;
 };
 
-function ConnectWalletButton({ setAccount }: ConnectWalletButtonProps) {
-  const onClick = async () => {
-    const chronoWallet = getChronoSdk();
-    if (!chronoWallet) {
-      return;
-    }
 
-    const addresses = (await chronoWallet.listAccounts()).map((account) => ({
-      activated: account.activated,
-      address: account.address,
-    }));
-
-    const activeIndex = addresses.findIndex((acc) => acc.activated);
-    setAccount(addresses[activeIndex !== -1 ? activeIndex : 0]);
-  };
-
-  return (
-    <button
-      type="button"
-      className="rounded-md bg-yellow-400 text-white p-3 font-bold"
-      onClick={onClick}
-    >
-      ConnectWallet
-    </button>
-  );
-}
 function TransferAssetsButton({
-  sender,
   recipient,
+  setTransactionData,
 }: {
-  sender: Address;
   recipient: Address;
+  setTransactionData: (data: string | null) => void;
 }) {
-  const [progress, setProgress] = useState<TransferAssetsProgress>("None");
-  const [stage] = useStageTransactionMutation();
-  const action = useMemo(() => {
-    return new TransferAsset({
-      sender,
-      recipient,
-      amount: fav(NCG, 10),
-    });
-  }, [sender, recipient]);
+  // const [progress, setProgress] = useState<TransferAssetsProgress>("None");
+  // const [stage] = useStageTransactionMutation();
+  // const action = useMemo(() => {
+  //   return new TransferAsset({
+  //     sender,
+  //     recipient,
+  //     amount: fav(NCG, 10),
+  //   });
+  // }, [sender, recipient]);
 
-  const onClick = () => {
-    setProgress("Signing");
-    const chronoWallet = getChronoSdk();
-    if (chronoWallet === undefined) {
-      return;
-    }
+  // const onClick = () => {
+  //   setProgress("Signing");
+  //   const chronoWallet = getChronoSdk();
+  //   if (chronoWallet === undefined) {
+  //     return;
+  //   }
 
-    chronoWallet
-      .sign(sender, action.bencode())
-      .then((tx) => {
-        console.log(tx);
-        setProgress("Staging");
-        return stage({
-          variables: {
-            tx: tx.toString("hex"),
-          },
-        }).then(({ data, errors }) => {
-          setProgress("Done");
-          console.log(data, errors);
-        });
-      })
-      .catch((e: unknown) => {
-        console.error(e);
-        setProgress("None");
-      });
-  };
+  //   chronoWallet
+  //     .sign(sender, action.bencode())
+  //     .then((tx) => {
+  //       console.log(tx);
+  //       setProgress("Staging");
+  //       return stage({
+  //         variables: {
+  //           tx: tx.toString("hex"),
+  //         },
+  //       }).then(({ data, errors }) => {
+  //         setProgress("Done");
+  //         console.log(data, errors);
+  //       });
+  //     })
+  //     .catch((e: unknown) => {
+  //       console.error(e);
+  //       setProgress("None");
+  //     });
+  // };
 
-  if (progress !== "None") {
-    return <button className="btn btn-outline btn-primary">{progress}</button>;
-  }
+  // if (progress !== "None") {
+  //   return <button className="btn btn-outline btn-primary">{progress}</button>;
+  // }
 
   return (
     <button
       type="button"
       className="rounded-md bg-yellow-400 text-white p-3 font-bold"
-      onClick={onClick}
+      // onClick={onClick}
     >
       TransferAssets
-      {progress}
+      {/* {progress} */}
     </button>
   );
 }
 
-const RegisterPage: NextPage = () => {
-  const { account, setAccount } = useContext(AccountContext);
 
-  const agentAddress = account ? account.address : null;
+const RegisterPage: NextPage = () => {
+  const [formData, setFormData] = useState<FormData>({
+    title: "",
+    writer: "",
+    summary: "",
+    githubIssue: "",
+    tags: "",
+  });
+
+  const [transactionData, setTransactionData] = useState<string | null>(null);
+
+  // const [currentAccount, setCurrentAccount] = useState<number>(0);
+
+  // const {
+  //   data: accountsData,
+  //   isLoading: accountsLoading,
+  //   isSuccess: accountsSuccess,
+  //   error: accountsError,
+  // } = useAccounts();
+  // const { connectAsync, isPending } = useConnect();
+  // const {
+  //   data: networksData,
+  //   isLoading: networksLoading,
+  //   isSuccess: networksSuccess,
+  // } = useNetwork();
+
+  // const chronoWallet = getChronoSdk();
+
+  // if (chronoWallet === undefined) {
+  //   return (
+  //     <div className="flex flex-col bg-gray-900 justify-center items-center min-w-screen min-h-screen">
+  //       There is no Chrono Wallet. You should install Chrono wallet first to use
+  //       this app.
+  //     </div>
+  //   );
+  // }
+
+  // if (accountsLoading || networksLoading) {
+  //   return <>Loading...</>;
+  // }
+
+  // if (!accountsSuccess) {
+  //   return <>Accounts are not loaded successful. error: {accountsError}</>;
+  // }
+
+  // if (!networksSuccess) {
+  //   return <>Network is not loaded successful.</>;
+  // }
+
+  // const { accounts, isConnected } = accountsData;
+  // const { network, isConnected: networkIsConnected } = networksData;
+
+  // if (!isConnected || !networkIsConnected) {
+  //   return (
+  //     <div className="flex flex-col bg-gray-900 justify-center items-center min-w-screen min-h-screen">
+  //       <p className="text-white mb-6 text-lg font-bold">
+  //         You must connect (allow) this site on Chrono first.
+  //       </p>
+  //       {isPending || (
+  //         <button
+  //           className="bg-white p-4 font-bold"
+  //           onClick={() => connectAsync()}
+  //         >
+  //           Connect
+  //         </button>
+  //       )}
+  //       {isPending && (
+  //         <button
+  //           className="bg-white p-4 font-bold"
+  //           disabled
+  //           onClick={() => connectAsync()}
+  //         >
+  //           Connecting
+  //         </button>
+  //       )}
+  //     </div>
+  //   );
+  // }
+
+  // const guessedNetworkName = (() => {
+  //   if (network.genesisHash.toLowerCase() === ODIN_GENESIS_HASH.toString()) {
+  //     return "odin";
+  //   } else if (
+  //     network.genesisHash.toLowerCase() === HEIMDALL_GENESIS_HASH.toString()
+  //   ) {
+  //     return "heimdall";
+  //   } else {
+  //     return "unknown";
+  //   }
+  // })();
+
+  // if (guessedNetworkName === "unknown") {
+  //   return <>Unknown network (genesis hash: {network.genesisHash})</>;
+  // }
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.title || !formData.writer || !formData.summary || !formData.githubIssue || !formData.tags || !transactionData) {
+      alert('Please check the form');
+      return;
+    }
+
+    var fileId = `${formData.writer}.${formData.title.replace(/\s+/g, "-")}`;
+    const jsonOutput = JSON.stringify(
+      {
+        id: fileId,
+        ...formData,
+        txHash: transactionData,
+      },
+      null,
+      2
+    );
+
+    const blob = new Blob([jsonOutput], { type: "application/json" });
+    const blobURL = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = blobURL;
+    link.download = `${fileId}.json`;
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobURL);
+  };
 
   return (
     <div className="">
@@ -123,62 +238,74 @@ const RegisterPage: NextPage = () => {
         </svg>
         <span>
           Once you complete the form, a file will be generated. Please use this
-          file to submit a pull request{" "}
+          file to submit a pull request
         </span>
       </div>
 
-      <label className="input input-bordered flex items-center gap-2">
-        Title
-        <input
-          type="text"
-          className="grow"
-          placeholder="Issue libplanet 3772"
-        />
-      </label>
-      <label className="input input-bordered flex items-center gap-2">
-        Writer
-        <input type="text" className="grow" placeholder="planetarium" />
-      </label>
-      <label className="input input-bordered flex items-center gap-2">
-        Summary
-        <input
-          type="text"
-          className="grow"
-          placeholder="Please solve the libplanet issue"
-        />
-      </label>
-      <label className="input input-bordered flex items-center gap-2">
-        GithubIssue
-        <input
-          type="text"
-          className="grow"
-          placeholder="https://github.com/planetarium/libplanet/issues/3772"
-        />
-      </label>
-      <label className="input input-bordered flex items-center gap-2">
-        GithubIssue
-        <input
-          type="text"
-          className="grow"
-          placeholder="https://github.com/planetarium/libplanet/issues/3772"
-        />
-      </label>
-      <select className="select select-bordered w-full max-w-xs">
-        <option>Tag</option>
-        <option>Libplanet</option>
-      </select>
-      {!agentAddress && setAccount && (
-        <ConnectWalletButton setAccount={setAccount} />
-      )}
-      {agentAddress && (
+      <form onSubmit={handleSubmit}>
+        <label className="input input-bordered flex items-center gap-2">
+          Title
+          <input
+            type="text"
+            name="title"
+            className="grow"
+            placeholder="Issue libplanet 3772"
+            onChange={handleChange}
+          />
+        </label>
+        <label className="input input-bordered flex items-center gap-2">
+          Writer
+          <input
+            type="text"
+            name="writer"
+            className="grow"
+            placeholder="planetarium"
+            onChange={handleChange}
+          />
+        </label>
+        <label className="input input-bordered flex items-center gap-2">
+          Summary
+          <input
+            type="text"
+            name="summary"
+            className="grow"
+            placeholder="Please solve the libplanet issue"
+            onChange={handleChange}
+          />
+        </label>
+        <label className="input input-bordered flex items-center gap-2">
+          GithubIssue
+          <input
+            type="text"
+            name="githubIssue"
+            className="grow"
+            placeholder="https://github.com/planetarium/libplanet/issues/3772"
+            onChange={handleChange}
+          />
+        </label>
+        <select
+          name="tags"
+          className="select select-bordered w-full max-w-xs"
+          onChange={handleChange}
+        >
+          <option>Tag</option>
+          <option>Libplanet</option>
+        </select>
         <TransferAssetsButton
-          sender={agentAddress}
           recipient={Address.fromHex(
             "0xf392d97E4D1757070Fd5b4dB9cdB9bD024F2c00e"
           )}
+          setTransactionData={setTransactionData}
         />
-      )}
-      <button className="btn btn-outline btn-primary">Create Bounty</button>
+        {transactionData && (
+          <div>
+            <strong>Transaction Staged:</strong> {transactionData}
+          </div>
+        )}
+        <button className="btn btn-outline btn-primary" type="submit">
+          Create Bounty
+        </button>
+      </form>
     </div>
   );
 };
