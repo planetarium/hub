@@ -88,9 +88,6 @@ const Navbar = ({ tags }: NavbarProps) => {
               <li>
                 <Link href="/">Mods</Link>
               </li>
-              <li>
-                <Link href="/bounties">Bounties</Link>
-              </li>
             </ul>
           </div>
         </div>
@@ -109,19 +106,6 @@ const Navbar = ({ tags }: NavbarProps) => {
               <Link
                 href="https://github.com/planetarium/hub?tab=readme-ov-file#contributing-to-the-mod-hub"
                 target="_blank"
-              >
-                <BsCloudPlus />
-              </Link>
-            </div>
-          )}
-
-          {router.pathname === "/bounties" && (
-            <div
-              className="tooltip tooltip-bottom content-end mb-1"
-              data-tip="Register Bounty"
-            >
-              <Link
-                href="/bounties/register"
               >
                 <BsCloudPlus />
               </Link>
