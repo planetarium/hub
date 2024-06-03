@@ -1,0 +1,13 @@
+{
+    "id": "planetarium.lib9c-js",
+    "title": "@planetarium/lib9c",
+    "developer": "Planetarium",
+    "summary": "A library to create Nine Chronicles actions easily with JavaScript/TypeScript",
+    "githubLink": "https://github.com/planetarium/lib9c/tree/development/@planetarium/lib9c",
+    "thumbnailExists": false,
+    "tags": [
+        "Library",
+        "JavaScript",
+        "TypeScript"
+    ]
+}
