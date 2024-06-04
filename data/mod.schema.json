@@ -8,7 +8,7 @@
         },
         "title": {
             "type": "string",
-            "maxLength": 10
+            "maxLength": 20
         },
         "developer": {
             "type": "string",

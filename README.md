@@ -13,7 +13,7 @@ Ensure your JSON file adheres to the following validation rules:
 - File Naming: The file must follow the {owner}.{mod_name}.json format.
 - Content Requirements:
   - id: Unique identifier for the mod, must not exceed 30 characters.
-  - title: Title of the mod, must not exceed 10 characters.
+  - title: Title of the mod, must not exceed 20 characters.
   - developer: Developer's name, must not exceed 15 characters.
   - summary: A brief summary of the mod, must not exceed 120 characters.
   - githubLink: A valid GitHub link starting with https://github.com/.

@@ -22,7 +22,7 @@ validate_mods() {
     tags=$(echo "$content" | jq -r '.tags[]')
 
     # Length checks
-    if [ "${#id}" -gt 30 ] || [ "${#title}" -gt 10 ] || [ "${#developer}" -gt 15 ] || [ "${#summary}" -gt 120 ]; then
+    if [ "${#id}" -gt 30 ] || [ "${#title}" -gt 20 ] || [ "${#developer}" -gt 15 ] || [ "${#summary}" -gt 120 ]; then
       echo "Validation failed for lengths in $filename"
       exit 1
     fi
