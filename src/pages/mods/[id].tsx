@@ -17,6 +17,78 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+class InvalidGitHubLinkError extends Error {
+  constructor(message?: string) {
+    super(message || "GitHub link must be 'https://github.com/{org}/{repo}' or 'https://github.com/{org}/{repo}/tree/{ref}/{...path}'");
+  }
+}
+
+interface GitHubContentLink {
+  organization: string,
+  repository: string,
+  path: string,
+  /**
+   * commit/branch/tag
+   */
+  ref?: string,
+};
+
+function parseGitHubContentLink(url: string): GitHubContentLink {
+  const githubLink = new URL(url);
+  const hostname = githubLink.hostname;
+  if (hostname !== "github.com") {
+    throw new Error("The given url's host is not 'github.com'.");
+  }
+
+  const pathname = githubLink.pathname;
+  const split = pathname.split('/').filter(x => x !== '');
+
+  if (split.length < 2) {
+    throw new InvalidGitHubLinkError();
+  }
+
+  const organization = split[0];
+  const repository = split[1];
+
+  if (split.length === 2) {
+    return {
+      organization,
+      repository,
+      path: '/',
+    }
+  }
+
+  if (split.length < 4 || split[2] !== 'tree') {
+    throw new InvalidGitHubLinkError();
+  }
+
+  const ref = split[3];
+  const path = '/' + split.slice(4).join('/');
+
+  return {
+    organization,
+    repository,
+    path,
+    ref
+  }
+}
+
+function buildReadmeUrl({
+  organization,
+  repository,
+  path,
+  ref,
+}: GitHubContentLink): string {
+  const url = new URL('https://api.github.com/');
+  if (ref) {
+    url.searchParams.append('ref', ref);
+  }
+
+  url.pathname = `/repos/${organization}/${repository}/contents/${path}/README.md`;
+
+  return url.toString();
+}
+
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
   const mod = getMod(id as string);
@@ -28,9 +100,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     throw new Error("GitHub token not found in environment variables.");
   }
 
-  const repoPath = mod.githubLink.replace("https://github.com/", "");
+  const githubLink = parseGitHubContentLink(mod.githubLink);
 
-  const readmeUrl = `https://api.github.com/repos/${repoPath}/contents/README.md`;
+  const readmeUrl = buildReadmeUrl(githubLink);
   const readmeResponse = await fetch(readmeUrl, {
     headers: {
       Authorization: `token ${githubToken}`,
