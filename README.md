@@ -18,14 +18,14 @@ Ensure your JSON file adheres to the following validation rules:
   - summary: A brief summary of the mod, must not exceed 120 characters.
   - githubLink: A valid GitHub link starting with https://github.com/.
   - thumbnailExists: Boolean indicating if a thumbnail is provided.
-  - tags: An array of tags that must exist in data/tags.json.
+  - tags: An array of tags that must exist in data/mod-tags.json.
 ## Step 4: Add a Thumbnail (Optional but Recommended)
 If thumbnailExists is set to true, upload a corresponding thumbnail image to the public/images directory.
 
 The thumbnail should be in a 4:3 ratio and its file name should match the id of the mod.
 Ensure the image file is not too large; aim for a size that balances quality and load efficiency.
 ## Step 5: Validate Tags
-Add or verify tags in `data/tags.json` Each tag must not exceed 10 characters.
+Add or verify tags in `data/mod-tags.json` Each tag must not exceed 10 characters.
 ## Step 6: Submit a Pull Request
 Push your changes to your fork and submit a pull request to the original repository.
 Ensure your pull request describes the changes and additions made.
