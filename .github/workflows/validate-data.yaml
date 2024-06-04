@@ -6,9 +6,13 @@ on:
       - "data/mods/**"
       - "public/images/**"
       - "data/tags.json"
+  pull_request:
 
 jobs:
   validate:
+    permissions:
+      contents: read
+
     runs-on: ubuntu-latest
 
     steps:
