@@ -34,10 +34,10 @@
                 "type": "string",
                 "description": "The value must exist in data/mod-tags.json",
                 "enum": [
-                    "website",
-                    "unity",
-                    "arena",
-                    "simulator",
+                    "Website",
+                    "Unity",
+                    "Arena",
+                    "Simulator",
                     "Library",
                     "JavaScript",
                     "TypeScript"
