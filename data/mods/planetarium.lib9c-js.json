@@ -1,4 +1,5 @@
 {
+    "$schema": "../mod.schema.json",
     "id": "planetarium.lib9c-js",
     "title": "@planetarium/lib9c",
     "developer": "Planetarium",
