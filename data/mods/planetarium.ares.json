@@ -1,4 +1,5 @@
 {
+    "$schema": "../mod.schema.json",
     "id": "planetarium.ares",
     "title": "Ares",
     "developer": "Planetarium",
