@@ -1,9 +1,12 @@
 import fs from "fs";
 import path from "path";
 import type { ModData } from "@/types/mod";
+import { BountyData } from "@/types/bounty";
 
 const modsDirectory = path.join(process.cwd(), "data", "mods");
+const bountiesDirectory = path.join(process.cwd(), "data", "bounties");
 const modTagsFile = path.join(process.cwd(), "data", "mod-tags.json");
+const bountyTagsFile = path.join(process.cwd(), "data", "bounty-tags.json");
 
 function getDatas<T>(dir: string): T[] {
   const filenames = fs.readdirSync(dir);
@@ -40,18 +43,35 @@ function getPaths(dir: string) {
   return paths;
 }
 
+
 export function getMods() {
   return getDatas<ModData>(modsDirectory);
+}
+
+export function getBounties() {
+  return getDatas<BountyData>(bountiesDirectory);
 }
 
 export function getMod(id: string) {
   return getData<ModData>(modsDirectory, id);
 }
 
+export function getBounty(id: string) {
+  return getData<BountyData>(bountiesDirectory, id);
+}
+
 export function getModTags() {
   return getTags(modTagsFile);
 }
 
+export function getBountyTags() {
+  return getTags(bountyTagsFile);
+}
+
 export function getModPaths() {
-  return getPaths(modsDirectory);
+  return getPaths(modsDirectory)
+}
+
+export function getBountyPaths() {
+  return getPaths(bountiesDirectory)
 }

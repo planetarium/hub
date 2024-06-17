@@ -112,6 +112,20 @@ const Navbar = ({ tags }: NavbarProps) => {
             </div>
           )}
 
+          {router.pathname === "/bounties" && (
+            <div
+              className="tooltip tooltip-bottom content-end mb-1"
+              data-tip="Register Bounty"
+            >
+              <Link
+                href="https://github.com/planetarium/hub?tab=readme-ov-file#contributing-to-bounties"
+                target="_blank"
+              >
+                <BsCloudPlus />
+              </Link>
+            </div>
+          )}
+
           {router.pathname === "/" && (
             <>
               <select
