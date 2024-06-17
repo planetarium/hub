@@ -49,11 +49,17 @@ const BountyPage: NextPage<{
     <div className="">
       <div className="card card-side border shadow-sm h-72 overflow-hidden">
         <div className="card-body p-4">
-          <h1 className="card-title text-4xl">{bounty.title}</h1>
+          <h1 className="card-title text-4xl"><span className=" text-yellow-500">[{bounty.price}NCG]</span> {bounty.title}</h1>
 
           <p className="text-lg m-1">{bounty.summary}</p>
 
           <div className="flex gap-2 flex-wrap">
+            <div key={bounty.assignee} className="badge badge-lg badge-primary badge-outline">
+              Assignee: {bounty.assignee}
+            </div>
+            <div key={bounty.status} className="badge badge-lg badge-primary badge-outline">
+              {bounty.status}
+            </div>
             {bounty.tags.map((tag) => (
               <div key={tag} className="badge badge-outline badge-lg">
                 {tag}
@@ -71,10 +77,10 @@ const BountyPage: NextPage<{
         </div>
       </div>
 
-      <div>{issueTitle}</div>
+      <div className="p-2 text-lg font-bold">Title: {issueTitle}</div>
 
       <ReactMarkdown
-        className="w-full mx-auto max-w-full px-4 py-8 prose prose-img:rounded-xl prose-headings:border-b-2 prose-headings:pb-4 prose-a:text-blue-600"
+        className="w-full mx-auto max-w-full px-4 py-6 prose prose-img:rounded-xl prose-headings:border-b-2 prose-headings:pb-4 prose-a:text-blue-600"
         remarkPlugins={[remarkGfm]}
       >
         {issueContent}

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { getBounties, getBountyTags } from "@/lib/dataUtil";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
@@ -17,15 +16,15 @@ export async function getStaticProps() {
   };
 }
 
-const BountiesPage: NextPage<{ initialBounties: BountyData[] }> = ({ initialBounties }) => {
-  const router = useRouter();
-
+const BountiesPage: NextPage<{ initialBounties: BountyData[] }> = ({
+  initialBounties,
+}) => {
   return (
     <div className="w-full">
       {initialBounties.map((bounty) => (
         <BountyCard key={bounty.id} {...bounty} />
       ))}
-      {initialBounties.length === 0 && <p>No mods found.</p>}
+      {initialBounties.length === 0 && <p>No bounties found.</p>}
     </div>
   );
 };

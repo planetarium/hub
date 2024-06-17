@@ -30,3 +30,36 @@ Add or verify tags in `data/tags.json` Each tag must not exceed 10 characters.
 Push your changes to your fork and submit a pull request to the original repository.
 Ensure your pull request describes the changes and additions made.
 By following these guidelines, you help ensure that your mod can be easily integrated into our hub and accessed by users. Thank you for your contribution!
+
+# Contributing to the Bounties
+To contribute a new bounty to our bounty hub, please follow these steps:
+
+## Step 1: Fork the Repository
+Fork the repository to your own GitHub account by clicking on the Fork button at the top right of the repository page.
+
+## Step 2: Create Your Bounty
+Navigate to the data/bounti directory in your forked repository.
+
+Create a new JSON file for your bounty. The file must be named using the format {owner}.{bounty_name}.json. For example: planetarium.libplanet-3772.json
+
+## Step 3: Follow the Validation Rules
+Ensure your JSON file adheres to the following validation rules:
+
+- File Naming: The file must follow the {owner}.{bounty_name}.json format.
+- Content Requirements:
+  - id: Unique identifier for the bounty, must not exceed 30 characters.
+  - writer: Writer's name, must not exceed 15 characters.
+  - title: Title of the bounty, must not exceed 10 characters.
+  - summary: A brief summary of the bounty, must not exceed 120 characters.
+  - githubIssue: A valid GitHub issue link starting with https://github.com/.
+  - status: Status of the bounty, should be one of "todo", "in-progress", or "done".
+  - assignee: The GitHub username of the assignee, can be null if not assigned.
+  - tags: An array of tags that must exist in data/bounty-tags.json.
+
+## Step 4: Validate Tags
+Add or verify tags in data/bounty-tags.json. Each tag must not exceed 10 characters.
+
+## Step 5: Submit a Pull Request
+Push your changes to your fork and submit a pull request to the original repository. Ensure your pull request describes the changes and additions made.
+
+By following these guidelines, you help ensure that your bounty can be easily integrated into our hub and accessed by users. Thank you for your contribution!

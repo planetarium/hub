@@ -121,7 +121,8 @@ const Navbar = ({ tags }: NavbarProps) => {
               data-tip="Register Bounty"
             >
               <Link
-                href="/bounties/register"
+                href="https://github.com/planetarium/hub?tab=readme-ov-file#contributing-to-bounties"
+                target="_blank"
               >
                 <BsCloudPlus />
               </Link>
