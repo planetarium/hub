@@ -88,6 +88,9 @@ const Navbar = ({ tags }: NavbarProps) => {
               <li>
                 <Link href="/">Mods</Link>
               </li>
+              <li>
+                <Link href="/bounties">Bounties</Link>
+              </li>
             </ul>
           </div>
         </div>
