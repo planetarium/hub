@@ -1,4 +1,5 @@
 {
+    "$schema": "../mod.schema.json",
     "id": "planetarium.9cscan",
     "title": "9cscan.com",
     "developer": "hxad",
@@ -6,6 +7,6 @@
     "githubLink": "https://github.com/planetarium/9cscan.com",
     "thumbnailExists": true,
     "tags": [
-        "website"
+        "Website"
     ]
 }

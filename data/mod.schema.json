@@ -1,0 +1,57 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string",
+            "maxLength": 30
+        },
+        "title": {
+            "type": "string",
+            "maxLength": 20
+        },
+        "developer": {
+            "type": "string",
+            "maxLength": 15
+        },
+        "summary": {
+            "type": "string",
+            "maxLength": 120
+        },
+        "githubLink": {
+            "type": "string",
+            "pattern": "^https:\\/\\/github\\.com\\/[^\\/]+\\/[^\\/]+(?:\\/tree\\/[^\\/]+(?:\\/.*)?)?$"
+        },
+        "siteLink": {
+            "type": "string"
+        },
+        "thumbnailExists": {
+            "type": "boolean"
+        },
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "description": "The value must exist in data/mod-tags.json",
+                "enum": [
+                    "Website",
+                    "Unity",
+                    "Arena",
+                    "Simulator",
+                    "Library",
+                    "JavaScript",
+                    "TypeScript"
+                ]
+            }
+        }
+    },
+    "required": [
+        "id",
+        "title",
+        "developer",
+        "summary",
+        "githubLink",
+        "thumbnailExists",
+        "tags"
+    ]
+}

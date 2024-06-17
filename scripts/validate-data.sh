@@ -22,7 +22,7 @@ validate_mods() {
     tags=$(echo "$content" | jq -r '.tags[]')
 
     # Length checks
-    if [ "${#id}" -gt 30 ] || [ "${#title}" -gt 10 ] || [ "${#developer}" -gt 15 ] || [ "${#summary}" -gt 120 ]; then
+    if [ "${#id}" -gt 30 ] || [ "${#title}" -gt 20 ] || [ "${#developer}" -gt 15 ] || [ "${#summary}" -gt 120 ]; then
       echo "Validation failed for lengths in $filename"
       exit 1
     fi
@@ -34,7 +34,7 @@ validate_mods() {
     fi
 
     # Validate tags
-    valid_tags=$(cat data/tags.json | jq -r '.[]')
+    valid_tags=$(cat data/mod-tags.json | jq -r '.[]')
     for tag in $tags; do
       if [[ ! "$valid_tags" =~ "$tag" ]]; then
         echo "Invalid tag $tag in $filename"
@@ -50,9 +50,9 @@ validate_mods() {
   done
 }
 
-# Validate tags.json format
+# Validate mod-tags.json format
 validate_tags() {
-  tags=$(cat data/tags.json | jq -r '.[]')
+  tags=$(cat data/mod-tags.json | jq -r '.[]')
   for tag in $tags; do
     if [ "${#tag}" -gt 10 ]; then
       echo "Tag $tag in tags.json exceeds 10 characters"
