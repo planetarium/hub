@@ -6,20 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "codegen": "graphql-codegen"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.9.11",
-    "@planetarium/account": "~4.4.2",
-    "@planetarium/bencodex": "^0.2.2",
-    "@planetarium/chrono-sdk": "npm:@jsr/planetarium__chrono-sdk@^0.2.0-dev.202405270630014975+614a4318d293df0ad87de575e9375bfe9b6707b0",
-    "@planetarium/lib9c": "npm:@jsr/planetarium__lib9c@^0.2.0-dev.202405270607435878+5300e991debf3ce9444201f037490c4f0e02406e",
-    "@planetarium/tx": "~4.4.2",
     "buffer": "^6.0.3",
-    "graphql": "^16.8.1",
-    "graphql-request": "^6.1.0",
-    "graphql-tag": "^2.12.6",
     "next": "14.2.2",
     "react": "^18",
     "react-dom": "^18",
@@ -29,12 +19,6 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/typescript": "^4.0.6",
-    "@graphql-codegen/typescript-graphql-request": "^6.2.0",
-    "@graphql-codegen/typescript-operations": "^4.2.0",
-    "@graphql-codegen/typescript-react-apollo": "^4.3.0",
-    "@graphql-codegen/typescript-resolvers": "^4.0.6",
     "@tailwindcss/typography": "^0.5.12",
     "@types/node": "^20",
     "@types/react": "^18",
